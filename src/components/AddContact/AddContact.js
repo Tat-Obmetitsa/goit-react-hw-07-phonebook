@@ -29,7 +29,7 @@ class AddContact extends Component {
       contact => contact.name === name,
     );
   if (oldContact || name === '' || number === '') {
-    alert('This another contact name or number');
+    alert('Add another contact name or number');
   } else {
     this.props.onSubmit(this.state);
   }
