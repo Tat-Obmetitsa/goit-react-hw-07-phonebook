@@ -1,0 +1,36 @@
+.form__list {
+  width: inherit;
+  margin-top: 5px;
+  display: flex;
+  justify-content:  space-between;
+    font-weight: 600;
+  font-size: 14px;
+  line-height: 1;
+ 
+}
+span {
+  font-size: 20px;
+}
+ul  {
+  width: 300px;
+  display: flex;
+  flex-direction: column;
+  justify-content:  space-between;
+}
+.form__list_button {
+  margin-left: 20px;
+  margin-top: 0;
+    display: inline-block;
+    align-items: center;
+    margin-top: 5px;
+    text-align: center;
+    background: #ff0081;
+    padding: 7px;
+    border: none;
+    color: #fff;
+    outline: none;
+    overflow: hidden;
+    border-radius: 20px;
+    cursor: pointer;
+    
+} 

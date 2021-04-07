@@ -1,0 +1,30 @@
+
+body {
+  background-color: #fff;
+  color: #813a5a;
+}
+
+h1, h2, h3, p, li, ul {
+  margin: 0;
+  padding: 0;
+}
+li  {
+  list-style-type: none;
+}
+.container {
+  max-width: 1170px;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 15px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+.container__title {
+  color: #5c2c4b;
+  margin-top: 10px;
+	margin-bottom: 10px;
+	font-weight: 500;
+	font-size: 36px;}
