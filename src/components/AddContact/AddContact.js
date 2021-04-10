@@ -31,7 +31,7 @@ class AddContact extends Component {
       alert(`${name} is already in contacts`);
       return;
     }
-    if (oldContact || name === '' || number === '') {
+    if (name === '' || number === '') {
         alert('Add another contact name or number');
       } else {
         this.props.onSubmit(this.state);
@@ -57,6 +57,7 @@ class AddContact extends Component {
             type="text"
             name="name"
             pattern="^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
+            title="Имя может состоять только из букв, апострофа, тире и пробелов. Например Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan и т. п."
             value={this.state.name}
             onChange={this.handleChange}
             id={this.nameInputId}
@@ -69,6 +70,8 @@ class AddContact extends Component {
             type="text"
             name="number"
             value={this.state.number}
+            pattern="(^\+?(\d{1,3})?[- .]?\(?(?:\d{2,3})\)?[- .]?\d\d\d[- .]?\d\d\d\d$)"
+            title="Номер телефона должен состоять из минимум 9 цифр и может содержать цифры, пробелы, тире, пузатые скобки и может начинаться с +"
             onChange={this.handleChange}
             id={this.numberInputId}
           />
