@@ -17,9 +17,9 @@ class ContactList extends Component {
     return (
       <>
         {loadingContacts && <h1>Loading...</h1>}
-        <ul>
+        <ul className={s.form__list}>
           {contactList.map(({ id, name, number }) => (
-            <li li key={id} className={s.form__list}>
+            <li li key={id} className={s.form__item}>
               <span>{name}: </span>
               <span>{number}</span>
               <button
