@@ -4,7 +4,8 @@ import { contactsOperations, contactsSelectors } from "../../redux/contacts";
 import s from '../AddContact/AddContact.module.css';
 import PropTypes from 'prop-types';
 import shortid from 'shortid';
-
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 class AddContact extends Component {
   state = {
     name: '',
@@ -28,11 +29,13 @@ class AddContact extends Component {
       (item) => item.name.toLowerCase() === name.toLowerCase()
     );
     if (oldContact) {
-      alert(`${name} is already in contacts`);
+      toast.configure();
+      toast.error(`${name} is already in contacts`);
       return;
     }
     if (name === '' || number === '') {
-        alert('Add another contact name or number');
+      toast.configure();
+      toast.error('Add another contact name or number');
       } else {
         this.props.onSubmit(this.state);
       }
