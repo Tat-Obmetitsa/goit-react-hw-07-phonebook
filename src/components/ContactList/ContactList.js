@@ -4,14 +4,10 @@ import s from '../ContactList/ContactList.module.css';
 import { contactsOperations, contactsSelectors } from '../../redux/contacts';
 import PropTypes from 'prop-types';
 class ContactList extends Component {
-  static propTypes = {
-    contactList: PropTypes.array.isRequired,
-    deleteContact: PropTypes.func.isRequired,
-  };
+
   componentDidMount() {
     this.props.fetchContacts();
   }
-
   render() {
     const { contactList, deleteContact, loadingContacts } = this.props;
     return (
@@ -19,11 +15,11 @@ class ContactList extends Component {
         {loadingContacts && <h1>Loading...</h1>}
         <ul className={s.form__list}>
           {contactList.map(({ id, name, number }) => (
-            <li li key={id} className={s.form__item}>
+            <li key={id} className={s.form__item}>
               <span>{name}: </span>
               <span>{number}</span>
               <button
-                type='button'
+                type="button"
                 className={s.form__list_button}
                 onClick={() => deleteContact(id)}
               >
@@ -48,5 +44,9 @@ const mapDispatchToProps = (dispatch) => ({
   deleteContact: (id) => dispatch(contactsOperations.deleteContact(id)),
   fetchContacts: () => dispatch(contactsOperations.fetchContacts()),
 });
-
+ContactList.propTypes = {
+  contactList: PropTypes.array.isRequired,
+  loadingContacts: PropTypes.bool,
+  deleteContact: PropTypes.func.isRequired,
+};
 export default connect(mapStateToProps, mapDispatchToProps)(ContactList);
