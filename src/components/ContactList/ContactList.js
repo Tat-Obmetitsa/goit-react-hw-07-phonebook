@@ -1,55 +1,52 @@
-import React from 'react';
+import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import s from '../ContactList/ContactList.module.css';
-import contactsActions from '../../redux/contacts/contacts-actions';
+import { contactsOperations, contactsSelectors } from '../../redux/contacts';
 import PropTypes from 'prop-types';
+class ContactList extends Component {
+  static propTypes = {
+    contactList: PropTypes.array.isRequired,
+    deleteContact: PropTypes.func.isRequired,
+  };
+  componentDidMount() {
+    this.props.fetchContacts();
+  }
 
-const ContactList = function ({ contacts, deleteContact }) {
-  return (
-    <ul>
-         {contacts.map(e => {
-          return (
-            <li key={e.id} className={s.form__list}>
-              <span>{e.name}: </span>
-              <span>{e.number}</span>
+  render() {
+    const { contactList, deleteContact, loadingContacts } = this.props;
+    return (
+      <>
+        {loadingContacts && <h1>Loading...</h1>}
+        <ul>
+          {contactList.map(({ id, name, number }) => (
+            <li li key={id} className={s.form__list}>
+              <span>{name}: </span>
+              <span>{number}</span>
               <button
-                type="button"
+                type='button'
                 className={s.form__list_button}
-                onClick={() => deleteContact(e.id)}
+                onClick={() => deleteContact(id)}
               >
                 Delete contact
               </button>
             </li>
-          );
-        })}
-    </ul>
-  );
-};
+          ))}
+        </ul>
+      </>
+    );
+  }
+}
 
-const filterContacts = (allContacts, filter) => {
-  const normalizedFilter = filter.toLocaleLowerCase();
-  return allContacts.filter(({name}) =>
-    name.toLowerCase().includes(normalizedFilter),
-  );
-};
+const { getIsLoading, filterContacts } = contactsSelectors;
 
-ContactList.propTypes = {
-  deleteContact: PropTypes.func.isRequired,
-  contacts: PropTypes.arrayOf(
-    PropTypes.shape({
-      id: PropTypes.string.isRequired,
-      name: PropTypes.string.isRequired,
-      number: PropTypes.string.isRequired,
-    }),
-  ),
-};
-
-const mapStateToProps = ({contacts: {items, filter}}) => ({
-  contacts: filterContacts(items, filter)
+const mapStateToProps = (state) => ({
+  loadingContacts: getIsLoading(state),
+  contactList: filterContacts(state),
 });
 
-const mapDispatchToProps = dispatch => ({
-  deleteContact: (id) => dispatch(contactsActions.deleteContact(id)), 
+const mapDispatchToProps = (dispatch) => ({
+  deleteContact: (id) => dispatch(contactsOperations.deleteContact(id)),
+  fetchContacts: () => dispatch(contactsOperations.fetchContacts()),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(ContactList);

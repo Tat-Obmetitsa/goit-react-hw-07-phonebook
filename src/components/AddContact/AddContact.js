@@ -1,9 +1,10 @@
-import React, { Component } from 'react';
-import {connect} from 'react-redux';
-import contactsActions from '../../redux/contacts/contacts-actions';
+import React, { Component } from "react";
+import { connect } from "react-redux";
+import { contactsOperations, contactsSelectors } from "../../redux/contacts";
 import s from '../AddContact/AddContact.module.css';
 import PropTypes from 'prop-types';
 import shortid from 'shortid';
+
 class AddContact extends Component {
   state = {
     name: '',
@@ -19,23 +20,25 @@ class AddContact extends Component {
       [name]: value,
     });
   };
-
-  handleSubmit = e => {
-      e.preventDefault();
-
-    const { name, number } = this.state;
-    const { items } = this.props.state.contacts;
-    const oldContact = items.find(
-      contact => contact.name === name,
+  handleSubmit = (e) => {
+    e.preventDefault();
+    const { name, number} = this.state;
+    const { contacts } = this.props;
+    const oldContact = contacts.find(
+      (item) => item.name.toLowerCase() === name.toLowerCase()
     );
-  if (oldContact || name === '' || number === '') {
-    alert('Add another contact name or number');
-  } else {
-    this.props.onSubmit(this.state);
-  }
-  this.reset()
-  };
+    if (oldContact) {
+      alert(`${name} is already in contacts`);
+      return;
+    }
+    if (oldContact || name === '' || number === '') {
+        alert('Add another contact name or number');
+      } else {
+        this.props.onSubmit(this.state);
+      }
 
+    this.reset();
+  };
   reset = () => {
     this.setState({
       name: '',
@@ -78,15 +81,15 @@ class AddContact extends Component {
     );
   }
 }
-const mapStateToProps = state => ({
- state,
-});
-const mapDispatchToProps = dispatch => ({
-  onSubmit: data => dispatch(contactsActions.addContact(data)),
-});
-
 AddContact.propTypes = {
   onSubmit: PropTypes.func.isRequired,
 };
+const mapStateToProps = (state) => ({
+  contacts: contactsSelectors.getAllContacts(state),
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  onSubmit: (contact) => dispatch(contactsOperations.addContact(contact)),
+});
 
 export default connect(mapStateToProps, mapDispatchToProps)(AddContact);

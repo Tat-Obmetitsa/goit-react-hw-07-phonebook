@@ -1,13 +1,14 @@
 import React from 'react';
-import {connect} from 'react-redux';
-import contactsActions from '../../redux/contacts/contacts-actions';
-import s from '../SearchFilter/SearchFilter.module.css';
+import { connect } from 'react-redux';
+import { contactsSelectors, changeFilter } from '../../redux/contacts';
+import s from './SearchFilter.module.css';
 import PropTypes from 'prop-types';
+
 
 const SearchFilter = ({ value, onChange }) => (
   <label className={s.form__label}>
     Find contacts by name
-    <input type="text" name="name" value={value} onChange={onChange} className={s.form__input} />
+    <input type='text' name='name' value={value} onChange={onChange} className={s.form__input} />
   </label>
 );
 
@@ -16,13 +17,12 @@ SearchFilter.propTypes = {
   onChange: PropTypes.func.isRequired,
 };
 
-const mapStateToProps =  state => ({
-  value: state.contacts.filter,
+const mapStateToProps = (state) => ({
+  value: contactsSelectors.getFilter(state),
 });
 
-const mapDispatchToProps = dispatch => ({
-  onChange: (e) => dispatch(contactsActions.changeFilter(e.target.value)), 
+const mapDispatchToProps = (dispatch) => ({
+  onChange: (ev) => dispatch(changeFilter(ev.target.value)),
 });
-export default connect(mapStateToProps, mapDispatchToProps) (SearchFilter);
 
-
+export default connect(mapStateToProps, mapDispatchToProps)(SearchFilter);

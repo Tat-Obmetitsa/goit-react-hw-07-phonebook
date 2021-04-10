@@ -1,39 +1,23 @@
-import {createAction} from '@reduxjs/toolkit';
-import shortid from 'shortid';
+import { createAction } from '@reduxjs/toolkit';
 
-const addContact = createAction('contacts/add', data => ({
-    payload: {
-        id: shortid.generate(),
-        name: data.name,
-        number: data.number,
-      }
-}));
-const deleteContact = createAction('contacts/delete');
+export const fetchContactsRequest = createAction(
+  'contacts/fetchContactsRequest'
+);
+export const fetchContactsSuccess = createAction(
+  'contacts/fetchContactsSuccess'
+);
+export const fetchContactsError = createAction('contacts/fetchContactsError');
 
-const changeFilter = createAction('contacts/changeFilter');
+export const addContactRequest = createAction('contacts/addContactRequest');
+export const addContactSuccess = createAction('contacts/addContactSuccess');
+export const addContactError = createAction('contacts/addContactError');
 
-// eslint-disable-next-line 
-export default {addContact, deleteContact, changeFilter};
+export const deleteContactRequest = createAction(
+  'contacts/deleteContactRequest'
+);
+export const deleteContactSuccess = createAction(
+  'contacts/deleteContactSuccess'
+);
+export const deleteContactError = createAction('contacts/deleteContactError');
 
-
-// without Toolkit
-
-// import types from './contacts-types';
-
-// const addContact = (data) => ({
-//     type: types.ADD,
-//     payload: {
-//         id: shortid.generate(),
-//         name: data.name,
-//         number: data.number,
-//       }
-// });
-
-// const deleteContact = (id) => ({
-//     type: types.DELETE,
-//     payload: id,
-// })
-// const changeFilter = value => ({
-//     type: types.CHANGE_FILTER,
-//     payload: value,
-// })
+export const changeFilter = createAction('contacts/changeFilter');
